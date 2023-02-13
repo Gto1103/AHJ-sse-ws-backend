@@ -4,12 +4,12 @@
 	"description": "server for homework sse-ws",
 	"main": "server.js",
 	"scripts": {
-		"prestart": "npm install",
+		"prestart": "yarn install",
 		"start": "forever server.js",
 		"watch": "forever -w server.js"
 	},
 	"engines": {
-		"node": "12.x"
+		"node": "16.x"
 	},
 	"author": "Gto1103",
 	"license": "ISC",

@@ -10,6 +10,29 @@ const server = http.createServer(app.callback());
 const wsServer = new WS.Server({ server });
 const usersId = [];
 
+app.use(koaBody({
+	urlencoded: true,
+ }));
+ 
+ app.use((ctx, next) => {
+	 const origin = ctx.request.get('Origin');
+	 if (ctx.request.method === "GET") {
+		console.log("OK");
+	 }
+	 if (!origin) {
+		return next();
+	 }
+ 
+  });
+ app.use(cors());
+//  app.use(async ctx => {
+// 	ctx.response.status = 404;
+// 	ctx.response.body ='server';
+// 	return
+//  });
+ 
+ const port = process.env.PORT || 7777;
+
 function getAllUserNames() {
   const names = []
   wsServer.clients.forEach(function each(client) {
@@ -100,15 +123,12 @@ wsServer.on('connection', (ws, req) => {
   ws.send(JSON.stringify('welcome'), errCallback);
 })
 
-app.use(koaBody({
-  urlencoded: true,
-}));
-app.use(cors());
-app.use(async ctx => {
-  ctx.response.status = 404;
-  ctx.response.body ='server';
-  return
-});
+server.listen(port, (err) => {
+  if (err) {
+    console.log(err);
 
-const port = process.env.PORT || 7070;
-server.listen(port);
+    return;
+  }
+
+  console.log('Server is listening to ' + port);
+});
