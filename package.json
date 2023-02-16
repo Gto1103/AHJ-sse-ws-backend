@@ -8,7 +8,7 @@
 		"watch": "forever -w server.js"
 	},
 	"engines": {
-		"node": "11.x"
+		"node": "14.x"
 	},
 	"author": "Gto1103",
 	"license": "ISC",
