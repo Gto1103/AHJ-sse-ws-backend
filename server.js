@@ -4,34 +4,11 @@ const WS = require('ws');
 const cors = require('@koa/cors');
 const { koaBody } = require('koa-body');
 const { v4 } = require('uuid');
-
 const app = new Koa();
+
 const server = http.createServer(app.callback());
 const wsServer = new WS.Server({ server });
 const usersId = [];
-
-app.use(koaBody({
-	urlencoded: true,
- }));
- 
- app.use((ctx, next) => {
-	 const origin = ctx.request.get('Origin');
-	 if (ctx.request.method === "GET") {
-		console.log("OK");
-	 }
-	 if (!origin) {
-		return next();
-	 }
- 
-  });
- app.use(cors());
-//  app.use(async ctx => {
-// 	ctx.response.status = 404;
-// 	ctx.response.body ='server';
-// 	return
-//  });
- 
- const port = process.env.PORT || 7777;
 
 function getAllUserNames() {
   const names = []
@@ -123,10 +100,23 @@ wsServer.on('connection', (ws, req) => {
   ws.send(JSON.stringify('welcome'), errCallback);
 })
 
+app.use(koaBody({
+	urlencoded: true,
+	multipart: true,
+	json: true,
+ }));
+app.use(cors());
+app.use(async ctx => {
+  ctx.response.status = 200;
+  ctx.response.body ='server';
+  return
+});
+
+const port = process.env.PORT || 7777;
+
 server.listen(port, (err) => {
   if (err) {
     console.log(err);
-
     return;
   }
 

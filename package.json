@@ -1,15 +1,14 @@
 {
-	"name": "http_backend",
+	"name": "sse-ws_backend",
 	"version": "1.0.0",
 	"description": "server for homework sse-ws",
 	"main": "server.js",
 	"scripts": {
-		"prestart": "yarn install",
 		"start": "forever server.js",
 		"watch": "forever -w server.js"
 	},
 	"engines": {
-		"node": "16.x"
+		"node": "11.x"
 	},
 	"author": "Gto1103",
 	"license": "ISC",
@@ -18,13 +17,9 @@
 		"@koa/cors": "^4.0.0",
 		"body-parser": "^1.20.1",
 		"forever": "^4.0.3",
-		"http-event-stream": "^0.2.0",
 		"koa": "^2.14.1",
 		"koa-body": "^6.0.1",
-		"koa-combine-routers": "^4.0.2",
-		"koa-router": "^12.0.0",
-		"koa-static": "^5.0.0",
 		"uuid": "^9.0.0",
-		"ws": "^8.12.0"
+		"ws": "^8.12.1"
 	}
 }
