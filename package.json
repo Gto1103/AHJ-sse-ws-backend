@@ -2,13 +2,14 @@
 	"name": "sse-ws_backend",
 	"version": "1.0.0",
 	"description": "server for homework sse-ws",
-	"main": "server.js",
+	"main": "index.js",
 	"scripts": {
-		"start": "forever server.js",
-		"watch": "forever -w server.js"
+		"start": "forever index.js",
+		"watch": "forever -w index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"engines": {
-		"node": "14.x"
+		"node": "16.x"
 	},
 	"author": "Gto1103",
 	"license": "ISC",
@@ -16,7 +17,8 @@
 	"dependencies": {
 		"@koa/cors": "^4.0.0",
 		"body-parser": "^1.20.1",
-		"forever": "^4.0.3",
+		"forever": "^0.14.2",
+		"forever-monitor": "^3.0.3",
 		"koa": "^2.14.1",
 		"koa-body": "^6.0.1",
 		"uuid": "^9.0.0",
