@@ -21,7 +21,6 @@ app.use(async ctx => {
 const server = http.createServer(app.callback());
 const wsServer = new WS.Server({ server });
 
-
 function getAllUserNames() {
 const names = [];
 	wsServer.clients.forEach(function each(client) {
@@ -79,7 +78,7 @@ wsServer.on('connection', (ws) => {
 					type: 'reportID',
 					userID: ws.userID
 				 }
-				 ws.send(JSON.stringify(reportID))
+				 ws.send(JSON.stringify(reportID));
           } else {
             error('Username required')
           }
