@@ -4,9 +4,8 @@
 	"description": "server for homework sse-ws",
 	"main": "index.js",
 	"scripts": {
-		"start": "forever index.js",
+		"start": "nodemon index.js",
 		"watch": "forever -w index.js",
-		"see": "nodemon index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"engines": {
