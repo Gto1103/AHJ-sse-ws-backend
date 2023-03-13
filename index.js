@@ -8,6 +8,7 @@ const { v4 } = require('uuid');
 const app = new Koa();
 const port = process.env.PORT || 8000;
 const usersId = [];
+let users = [];
 
 app.use(cors());
 app.use(koaBody({urlencoded: true, multipart: true, json: true}));
@@ -27,7 +28,7 @@ const names = [];
 		if (client.readyState === WS.OPEN && client.name) {
 			names.push(client.name);
 		}
-	});
+	})
 	return names;
 }
 
@@ -49,7 +50,7 @@ function error(err) {
   });
 }
 
-function deleteID(id, array) {
+function deleteAll(id, array) {
   const idx = array.findIndex((element) => Number(element) === Number(id))
   if (idx !== -1) {
     array.splice(idx,1)
@@ -69,16 +70,28 @@ wsServer.on('connection', (ws) => {
       case 'connect':
         {
           if (message.name) {
-            ws.name = message.name;
-            ws.userID = v4();
-            message.userID = ws.userID;
-				message.allUsers = getAllUserNames();
-				broadcast(message);
-				const reportID = {
-					type: 'reportID',
-					userID: ws.userID
-				 }
-				 ws.send(JSON.stringify(reportID));
+				console.log(users);
+				if (users.find((user) => user === message.name)) {
+					const reportID = {
+						type: 'Used username!',
+						userID: ws.userID,
+					}
+					ws.send(JSON.stringify(reportID));
+					} else {
+					// login success
+					users.push(message.name);
+
+					ws.name = message.name;
+					ws.userID = v4();
+					message.userID = ws.userID;
+					message.allUsers = getAllUserNames();
+					broadcast(message);
+					const reportID = {
+						type: 'Username ok',
+						userID: ws.userID
+					}
+					ws.send(JSON.stringify(reportID))
+				}
           } else {
             error('Username required')
           }
@@ -105,7 +118,8 @@ wsServer.on('connection', (ws) => {
         }
         message.allUsers = getAllUserNames();
         broadcast(message);
-        deleteID(ws.id, usersId);
+		  deleteAll(ws.name, users)
+        deleteAll(ws.id, usersId);
       }
     })
   });
